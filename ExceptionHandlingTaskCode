@@ -1,0 +1,78 @@
+using System;
+
+namespace ExceptionHandling
+{
+	public class BaseClassException
+	{
+		public virtual void ExceptionMethod()
+		{
+			try
+			{
+				throw new Exception();
+			}
+			catch (DivideByZeroException ex)
+			{
+				Console.WriteLine("This is DivideByZeroException catch block from BaseClassException class");
+			}
+			catch
+			{
+				Console.WriteLine("This is catch block from BaseClassException class");
+			}
+			finally
+			{
+				Console.WriteLine("This is finally block from BaseClassException class");
+			}
+		}
+	}
+
+	public class ChildBaseClassException : BaseClassException
+	{
+		public override void ExceptionMethod()
+		{
+			try
+			{
+				base.ExceptionMethod();
+				throw new Exception();
+			}
+			catch (DivideByZeroException ex)
+			{
+				Console.WriteLine("This is DivideByZeroException catch block from ChildBaseClassException class");
+			}
+			catch
+			{
+				throw new Exception();
+				Console.WriteLine("This is catch block from ChildBaseClassException class");
+			}
+			finally
+			{
+				Console.WriteLine("This is finally block from ChildBaseClassException class");
+			}
+		}
+	}
+
+	class Program
+    {
+        static void Main(string[] args)
+        {
+			try
+			{
+				BaseClassException childBaseClassException = new ChildBaseClassException();
+				childBaseClassException.ExceptionMethod();
+
+				Console.WriteLine("This is main console output.");
+			}
+			catch(NullReferenceException ex)
+			{
+				Console.WriteLine("This is main NullReferenceException catch.");
+			}
+			catch
+			{
+				Console.WriteLine("This is main catch.");
+			}
+			finally
+			{
+				Console.WriteLine("This is finally from main method.");
+			}
+		}
+    }
+}
